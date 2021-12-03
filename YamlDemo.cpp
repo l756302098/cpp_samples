@@ -15,6 +15,7 @@ namespace yaml
 
         void YamlDemo::ReadAndWriteYaml()
         {
+            //fix bug
             std::string dir = "/home/indemind/workspces/config";
             if (!swr::util::FilePath::IsFileExisted(dir))
             {
