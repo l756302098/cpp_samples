@@ -16,7 +16,7 @@ namespace yaml
         void YamlDemo::ReadAndWriteYaml()
         {
             //fix bug
-            std::string dir = "/home/indemind/workspces/config";
+            std::string dir = "/home/li/workspces/config";
             if (!swr::util::FilePath::IsFileExisted(dir))
             {
                 swr::util::FilePath::CreateDirR(dir.c_str());
@@ -49,7 +49,7 @@ namespace yaml
         }
         bool YamlDemo::SaveToYaml()
         {
-            std::string dir = "/home/indemind/workspces/config";
+            std::string dir = "/home/li/workspces/config";
             if (!swr::util::FilePath::IsFileExisted(dir))
             {
                 swr::util::FilePath::CreateDirR(dir.c_str());
@@ -87,6 +87,55 @@ namespace yaml
                 std::cout << "ocuer error" << std::endl;
             }
             
+        }
+        void YamlDemo::DelYaml(){
+            //fix bug
+            std::string dir = "/home/li/workspces/config";
+            if (!swr::util::FilePath::IsFileExisted(dir))
+            {
+                swr::util::FilePath::CreateDirR(dir.c_str());
+            }
+            std::string path = dir + "/info.yaml";
+            if (!swr::util::FilePath::IsFileExisted(path))
+            {
+                std::ofstream fout(path);
+                fout << "routeList:" << std::endl;
+                fout.close();
+            }
+            YAML::Node localInfo = YAML::LoadFile(path);
+            YAML::Node routeList = localInfo["routeList"];
+            std::cout << "routeList type:" << routeList.Type() << std::endl;
+            if(!routeList.IsSequence())
+            {
+                std::cout << "routeList Is not Sequence" << std::endl;
+                return;
+            }
+            std::cout << "routeList size is " << routeList.size()  << std::endl;
+            if(!routeList.size())
+            {
+                std::cout << "routeList size is 0" << std::endl;
+                return;
+            }
+            for (const auto &info : routeList)
+            {
+                std::string routeCode = info["routeName"].as<std::string>();
+                std::cout << "routeName:" << routeCode << std::endl;
+            }
+            for (int i = routeList.size() - 1; i >= 0; i--){
+                if(routeList[i]["bodyNum"].as<std::int16_t>()==1){
+                    bool isDel = routeList.remove(i);
+                    if(!isDel){
+                        std::cout << "del failed" << std::endl;
+                    }
+                    else{
+                        std::cout << "del success" << std::endl;
+                    }
+                }
+            }
+            //write conf
+            std::ofstream fout(path);
+            fout << localInfo;
+            fout.close();
         }
     }
 }

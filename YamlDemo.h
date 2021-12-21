@@ -20,6 +20,7 @@ namespace yaml
             ~YamlDemo();
             void ReadAndWriteYaml();
             bool SaveToYaml();
+            void DelYaml();
         };
     }
 }
