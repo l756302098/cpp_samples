@@ -29,7 +29,7 @@ else()
 endif()
 
 include_directories(${Boost_INCLUDE_DIRS})
-add_executable(yaml_samples main.cpp YamlDemo.cpp)
+add_executable(yaml_samples main.cpp YamlDemo.cpp Person.cpp Student.cpp Teacher.cpp)
 
 target_link_libraries(yaml_samples
 ${Boost_LIBRARIES}

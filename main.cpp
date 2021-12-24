@@ -12,6 +12,16 @@
 #include <iostream>
 #include "YamlDemo.h"
 #include "FilePath.h"
+#include "Person.h"
+#include "Student.h"
+#include "Teacher.h"
+
+struct HlcInfo
+{
+	std::string name;
+	std::int16_t age;
+};
+
 
 void MoveFile(){
     std::string targetPath = "/home/li/info.yaml";
@@ -28,56 +38,38 @@ void MoveFile(){
     std::cout << "file size:" << size << std::endl;
 }
 
-void LockSet(int fd, int type) {
-	struct flock lock;
-	lock.l_whence = SEEK_SET;
-	lock.l_start = 0;
-	lock.l_len = 0;
-	while (1) {
-		lock.l_type = type;
-		if ((fcntl(fd, F_SETLK, &lock)) == 0) {
-			if (lock.l_type == F_RDLCK)
-				printf("read lock set by %d\n", getpid());
-			else if(lock.l_type == F_WRLCK)
-				printf("write lock set by %d\n", getpid());
-			else if (lock.l_type == F_UNLCK)
-				printf("release lock by %d\n", getpid());
-			return;
+void LoopDemo(){
+	std::cout << "start loop" << std::endl;
+	for (int i = 0; i < 10; i++)
+	{
+		std::cout << "i:" << i << std::endl;
+		for (int j = 0; j < 10; j++)
+		{
+			std::cout << "j:" << j << std::endl;
+			if(j==5)
+			{
+				std::cout << "break" << std::endl;
+				break;
+			}
 		}
-		//检查文件是否可以上锁
-		fcntl(fd, F_GETLK, &lock);
-		//判断不能上锁的原因
-		if (lock.l_type != F_UNLCK) {
-			if (lock.l_type == F_RDLCK)
-				printf("read lock has been already set by %d\n", getpid());
-			else if (lock.l_type == F_WRLCK)
-			printf("write lock has been already set by %d\n", getpid());
-			getchar();
-		}
+		
 	}
+	std::cout << "end loop" << std::endl;
 }
 
 int main(int argc, char *argv[])
 {
     std::cout << "Start yaml demo!" << std::endl;
-    //yaml::demo::YamlDemo demo;
-    // demo.ReadAndWriteYaml();
-    // demo.SaveToYaml();
-    // demo.ReadAndWriteYaml();
-    // demo.DelYaml();
+    yaml::demo::YamlDemo demo;
+    demo.ReadAndWriteYaml();
+    demo.SaveToYaml();
+    demo.ReadAndWriteYaml();
+    demo.DelYaml2();
     // MoveFile();
 
-    int fd;
-	fd = open("/home/li/info.yaml", O_RDWR | O_CREAT, 0666);
-	if (fd < 0) {
-		perror("open failed");
-		return -1;
-	}
-	LockSet(fd, F_WRLCK);
-	getchar();
-	LockSet(fd, F_UNLCK);
-	getchar();
-	close(fd);
+	// LoopDemo();
 
+	// HlcInfo info;
+	// std::cout << info.name << " isempty:" << info.name.empty() << " size:" << info.name.size() << " " << info.age << std::endl;
     return 0;
 }

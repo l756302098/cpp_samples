@@ -21,6 +21,7 @@ namespace yaml
             void ReadAndWriteYaml();
             bool SaveToYaml();
             void DelYaml();
+            void DelYaml2();
         };
     }
 }

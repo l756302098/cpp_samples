@@ -16,7 +16,7 @@ namespace yaml
         void YamlDemo::ReadAndWriteYaml()
         {
             //fix bug
-            std::string dir = "/home/li/workspces/config";
+            std::string dir = "/home/li/workspaces/config";
             if (!swr::util::FilePath::IsFileExisted(dir))
             {
                 swr::util::FilePath::CreateDirR(dir.c_str());
@@ -49,7 +49,7 @@ namespace yaml
         }
         bool YamlDemo::SaveToYaml()
         {
-            std::string dir = "/home/li/workspces/config";
+            std::string dir = "/home/li/workspaces/config";
             if (!swr::util::FilePath::IsFileExisted(dir))
             {
                 swr::util::FilePath::CreateDirR(dir.c_str());
@@ -90,7 +90,7 @@ namespace yaml
         }
         void YamlDemo::DelYaml(){
             //fix bug
-            std::string dir = "/home/li/workspces/config";
+            std::string dir = "/home/li/workspaces/config";
             if (!swr::util::FilePath::IsFileExisted(dir))
             {
                 swr::util::FilePath::CreateDirR(dir.c_str());
@@ -132,6 +132,29 @@ namespace yaml
                     }
                 }
             }
+            //write conf
+            std::ofstream fout(path);
+            fout << localInfo;
+            fout.close();
+        }
+
+        void YamlDemo::DelYaml2(){
+            std::string dir = "/home/li/workspaces/config";
+            if (!swr::util::FilePath::IsFileExisted(dir))
+            {
+                swr::util::FilePath::CreateDirR(dir.c_str());
+            }
+            std::string path = dir + "/info.yaml";
+            if (!swr::util::FilePath::IsFileExisted(path))
+            {
+                std::ofstream fout(path);
+                fout << "routeList:" << std::endl;
+                fout.close();
+            }
+            YAML::Node localInfo = YAML::LoadFile(path);
+            YAML::Node routeList = localInfo["routeList"];
+            routeList.remove(2);
+            routeList.remove(1);
             //write conf
             std::ofstream fout(path);
             fout << localInfo;
