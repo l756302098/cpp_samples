@@ -26,23 +26,15 @@ void SplitFile(){
     memset(buf,0x0,size);
 	fread(buf, size, 1, fp);
 
-	fclose(fp);
-
-	for (size_t i = 0; i < 10; i++)
-	{
-		std::cout << i << " " << (buf + i) << std::endl;
-	}
-	
+	fclose(fp);	
 
 	int unitSize = size / 10;
 	int childCount = size % unitSize == 0 ? size / unitSize : size / unitSize + 1;
-
 	std::cout << "unitSize:" << unitSize << " childCount:" << childCount << std::endl;
 	std::string rootPath = "/home/li/Documents/Test/";
 	for (size_t i = 0; i < childCount; i++)
 	{
 		std::string childPath = rootPath + std::to_string(i);
-		/* code */
 		FILE *cfp;
 		/* 打开文件用于读写 */
 		cfp = fopen(childPath.c_str(), "w+");
@@ -62,7 +54,6 @@ void MergeFile(){
 	for (size_t i = 0; i < 10; i++)
 	{
 		std::string childPath = rootPath + std::to_string(i);
-		/* code */
 		FILE *cfp;
 		/* 打开文件用于读写 */
 		cfp = fopen(childPath.c_str(), "r+");

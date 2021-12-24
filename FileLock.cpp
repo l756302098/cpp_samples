@@ -12,31 +12,6 @@
 #include <iostream>
 #include "YamlDemo.h"
 #include "FilePath.h"
-#include "Person.h"
-#include "Student.h"
-#include "Teacher.h"
-
-struct HlcInfo
-{
-	std::string name;
-	std::int16_t age;
-};
-
-
-void MoveFile(){
-    std::string targetPath = "/home/li/info.yaml";
-    std::string nfsPath  = "/home/li/log/test";
-    if(!swr::util::FilePath::IsDirExisted(nfsPath)){
-        swr::util::FilePath::CreateDir(nfsPath.c_str());
-    }
-    nfsPath = nfsPath + "/info.yaml";
-    bool isSave = swr::util::FilePath::CopyFile(targetPath.c_str(),nfsPath.c_str());
-    if(!isSave){
-        std::cout << "save failed" << std::endl;
-    }
-    int size = swr::util::FilePath::GetFileSize(nfsPath.c_str());
-    std::cout << "file size:" << size << std::endl;
-}
 
 void LockSet(int fd, int type) {
 	struct flock lock;

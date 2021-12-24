@@ -52,7 +52,6 @@ void LoopDemo(){
 				break;
 			}
 		}
-		
 	}
 	std::cout << "end loop" << std::endl;
 }
