@@ -91,10 +91,11 @@ void MergeFile2(){
 		/* 打开文件用于读写 */
 		cfp = fopen(childPath.c_str(), "r+");
 		/* 写入数据到文件 */
-		fread(buf, fileSize, 1, cfp);
-		fclose(cfp);
-		std::string str;
-		str.assign(&buf[0],&buf[strlen(buf)]);
+		size_t readSize = fread(buf, fileSize, 1, cfp);
+		std::cout << "fileSize:" << fileSize << " readSize:" << readSize <<std::endl;
+		//fclose(cfp);
+		std::string str(buf);
+		//str.assign(&buf[0],&buf[strlen(buf)]);
 		totalBuf += str;
 		delete buf;
 	}
@@ -110,7 +111,7 @@ void MergeFile2(){
 int main(int argc, char *argv[])
 {
 	SplitFile();
-	MergeFile();
+	MergeFile2();
 	{
 		FILE *fp;
 		char c[] = "This is runoob";

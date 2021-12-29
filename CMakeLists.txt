@@ -33,4 +33,5 @@ add_executable(yaml_samples main.cpp YamlDemo.cpp Person.cpp Student.cpp Teacher
 
 target_link_libraries(yaml_samples
 ${Boost_LIBRARIES}
-yaml-cpp)
+yaml-cpp
+pthread)
