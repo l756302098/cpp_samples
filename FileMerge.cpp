@@ -74,6 +74,7 @@ void MergeFile(){
 
 void MergeFile2(){
 	//get total size
+	std::vector<char> bufVect;
 	std::string totalBuf;
 	size_t totalSize = 0;
 	std::string rootPath = "/home/li/Documents/Test/";
@@ -94,23 +95,17 @@ void MergeFile2(){
 		size_t readSize = fread(buf, fileSize, 1, cfp);
 		std::cout << "fileSize:" << fileSize << " readSize:" << readSize <<std::endl;
 		fclose(cfp);
-		std::string str(buf);
-		std::cout << "str size:" << str.size() << std::endl;
-		// std::string str;
-		// str.assign(&buf[0],&buf[strlen(buf)]);
-		totalBuf += str;
-		std::cout << "read size:" << totalBuf.size() << std::endl;
+		//copy to vect
+		bufVect.insert(bufVect.end(), buf, buf + fileSize);
+		std::cout << "VECT size:" << bufVect.size()  << std::endl;
 		delete buf;
-		std::cout << "read size:" << totalBuf.size() << std::endl;
 	}
-	std::cout << "read size:" << totalBuf.size() << std::endl;
-	std::cout << "read size:" << strlen(totalBuf.c_str()) << std::endl;
 	FILE *fp;
 	std::string targetPath = rootPath + "ori.jpg";
 	/* 打开文件用于读写 */
 	fp = fopen(targetPath.c_str(), "w+");
 	/* 写入数据到文件 */
-	fwrite(totalBuf.c_str(), totalSize, 1, fp);
+	fwrite(bufVect.data(), totalSize, 1, fp);
 	fclose(fp);
 }
 
