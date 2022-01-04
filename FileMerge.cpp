@@ -93,12 +93,18 @@ void MergeFile2(){
 		/* 写入数据到文件 */
 		size_t readSize = fread(buf, fileSize, 1, cfp);
 		std::cout << "fileSize:" << fileSize << " readSize:" << readSize <<std::endl;
-		//fclose(cfp);
+		fclose(cfp);
 		std::string str(buf);
-		//str.assign(&buf[0],&buf[strlen(buf)]);
+		std::cout << "str size:" << str.size() << std::endl;
+		// std::string str;
+		// str.assign(&buf[0],&buf[strlen(buf)]);
 		totalBuf += str;
+		std::cout << "read size:" << totalBuf.size() << std::endl;
 		delete buf;
+		std::cout << "read size:" << totalBuf.size() << std::endl;
 	}
+	std::cout << "read size:" << totalBuf.size() << std::endl;
+	std::cout << "read size:" << strlen(totalBuf.c_str()) << std::endl;
 	FILE *fp;
 	std::string targetPath = rootPath + "ori.jpg";
 	/* 打开文件用于读写 */
@@ -108,29 +114,67 @@ void MergeFile2(){
 	fclose(fp);
 }
 
+void MergeFile3(){
+	size_t totalSize = 0;
+	size_t readSize = 0;
+	std::string rootPath = "/home/li/Documents/Test/";
+	for (size_t i = 0; i < 10; i++)
+	{
+		std::string childPath = rootPath + std::to_string(i);
+		size_t fileSize = swr::util::FilePath::GetFileSize(childPath.c_str());
+		if(fileSize != -1)
+		{
+			totalSize += fileSize;
+		}
+	}
+	//merge
+	char *buf = new char[totalSize]; 
+    memset(buf,0x0,totalSize);
+	for (size_t i = 0; i < 10; i++)
+	{
+		std::string childPath = rootPath + std::to_string(i);
+		size_t fileSize = swr::util::FilePath::GetFileSize(childPath.c_str());
+		FILE *cfp;
+		/* 打开文件用于读写 */
+		cfp = fopen(childPath.c_str(), "r+");
+		/* 写入数据到文件 */
+		fread(buf + readSize, fileSize, 1, cfp);
+		fclose(cfp);
+		readSize += fileSize;
+	}
+	FILE *fp;
+	std::string targetPath = rootPath + "ori.jpg";
+	/* 打开文件用于读写 */
+	fp = fopen(targetPath.c_str(), "w+");
+	/* 写入数据到文件 */
+	fwrite(buf, totalSize, 1, fp);
+	fclose(fp);
+	delete buf;
+}
+
 int main(int argc, char *argv[])
 {
-	SplitFile();
+	//SplitFile();
 	MergeFile2();
-	{
-		FILE *fp;
-		char c[] = "This is runoob";
-		char buffer[20];
+	// {
+	// 	FILE *fp;
+	// 	char c[] = "This is runoob";
+	// 	char buffer[20];
 		
-		/* 打开文件用于读写 */
-		fp = fopen("/home/li/file.txt", "w+");
+	// 	/* 打开文件用于读写 */
+	// 	fp = fopen("/home/li/file.txt", "w+");
 		
-		/* 写入数据到文件 */
-		fwrite(c, strlen(c), 1, fp);
+	// 	/* 写入数据到文件 */
+	// 	fwrite(c, strlen(c), 1, fp);
 		
-		/* 查找文件的开头 */
-		fseek(fp, 0, SEEK_SET);
+	// 	/* 查找文件的开头 */
+	// 	fseek(fp, 0, SEEK_SET);
 		
-		/* 读取并显示数据 */
-		fread(buffer, strlen(c), 1, fp);
-		printf("%s\n", buffer);
-		fclose(fp);
-	}
+	// 	/* 读取并显示数据 */
+	// 	fread(buffer, strlen(c), 1, fp);
+	// 	printf("%s\n", buffer);
+	// 	fclose(fp);
+	// }
 
     return 0;
 }

@@ -59,16 +59,22 @@ void LoopDemo(){
 int main(int argc, char *argv[])
 {
     std::cout << "Start yaml demo!" << std::endl;
+
+    /*
+    int a = 0;
+    int b = 0;
+    std::cout << "a:" << a++ << std::endl;
+    std::cout << "b:" << ++b << std::endl;
+
+    std::cout << "a:" << a << std::endl;
+    std::cout << "b:" << b << std::endl;
+    
     yaml::demo::YamlDemo demo;
     demo.ReadAndWriteYaml();
     demo.SaveToYaml();
     demo.ReadAndWriteYaml();
     demo.DelYaml2();
-    // MoveFile();
-
-	// LoopDemo();
-
-	// HlcInfo info;
-	// std::cout << info.name << " isempty:" << info.name.empty() << " size:" << info.name.size() << " " << info.age << std::endl;
+    */
     return 0;
 }
+
