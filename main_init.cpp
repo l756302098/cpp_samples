@@ -47,6 +47,7 @@ void test()
         std::cout << "thread1 hi hz:" << watchMap["hi"].GetHz() << std::endl;
         std::cout << "thread1 hello hz:" << watchMap["hello"].GetHz() << std::endl;
         auto&& last = watchMap["hi"].SinceLastTick().toMilliseconds();
+        std::cout << "main last:" << last << std::endl;
         if(last > 5 * 1000)
         {   
             std::cout << "main last:" << last << std::endl;

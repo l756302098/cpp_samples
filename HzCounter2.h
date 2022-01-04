@@ -15,11 +15,13 @@ class HzCounter2 {
 
     std::deque<std::uint64_t> msgTimeQueue;
     std::mutex lockMutex;
-    volatile std::uint64_t lastPrintTime;
+    std::atomic_int64_t lastPrintTime;
     static const std::uint8_t maxTime = 2u; // s
 
 public:
-    HzCounter2(){};
+    HzCounter2(){
+        lastPrintTime = util::Now();
+    };
     ~HzCounter2(){
         std::lock_guard<std::mutex> guard(lockMutex);
         msgTimeQueue.clear();
@@ -27,7 +29,7 @@ public:
 
     void Tick() {
         std::uint64_t now = util::Now();
-
+        lastPrintTime = now;
         std::lock_guard<std::mutex> guard(lockMutex);
         msgTimeQueue.push_back(now);
         //std::cout << "add " << now << std::endl;
@@ -86,7 +88,7 @@ public:
     Duration SinceLastTick() {
         std::uint64_t now = util::Now();
         std::lock_guard<std::mutex> guard(lockMutex);
-        std::uint64_t last = 0;
+        std::uint64_t last = lastPrintTime;
         std::cout << "now:" << now << std::endl;
         // if(msgTimeQueue.size() > 0)
         // {

@@ -75,7 +75,6 @@ void MergeFile(){
 void MergeFile2(){
 	//get total size
 	std::vector<char> bufVect;
-	std::string totalBuf;
 	size_t totalSize = 0;
 	std::string rootPath = "/home/li/Documents/Test/";
 	for (size_t i = 0; i < 10; i++)
