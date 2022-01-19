@@ -1,8 +1,8 @@
-# yaml-samples
-yaml-samples
+# cpp-samples
+cpp-samples
 
 # Introduction
 
-yaml-samples test git
+cpp-samples test git
 
 git fetch
