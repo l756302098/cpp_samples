@@ -16,7 +16,7 @@ namespace yaml
         void YamlDemo::ReadAndWriteYaml()
         {
             //fix bug
-            std::string dir = "/home/li/workspaces/config";
+            std::string dir = "/home/li/map";
             if (!swr::util::FilePath::IsFileExisted(dir))
             {
                 swr::util::FilePath::CreateDirR(dir.c_str());
@@ -43,13 +43,17 @@ namespace yaml
             }
             for (const auto &info : localInfo["routeList"])
             {
-                std::string routeCode = info["routeName"].as<std::string>();
-                std::cout << "routeName:" << routeCode << std::endl;
+                std::string routeName = info["routeName"].as<std::string>();
+                std::cout << "routeName:" << routeName << std::endl;
+                std::uint8_t routeState = info["routeState"].as<uint8_t>();
+                std::cout << "routeState:" << (std::uint16_t)routeState << std::endl;
+                std::uint8_t mapState = info["mapState"].as<uint8_t>();
+                std::cout << "mapState:" << (std::uint16_t)mapState << std::endl;
             }
         }
         bool YamlDemo::SaveToYaml()
         {
-            std::string dir = "/home/li/workspaces/config";
+            std::string dir = "/home/li/map";
             if (!swr::util::FilePath::IsFileExisted(dir))
             {
                 swr::util::FilePath::CreateDirR(dir.c_str());
@@ -66,17 +70,23 @@ namespace yaml
                 /* code */
                 YAML::Node config = YAML::LoadFile(path);
                 //create new node
-                YAML::Node node;
-                node["siteCode"] = "n101";
-                node["hlcCode"] = "1";
-                node["slotCode"] = 1;
-                node["bodyNum"] = 0;
-                node["machineName"] = "m18";
-                node["routeName"] = "r18";
-                node["size"] = 0;
-                node["time"] = 0;
-
-                config["routeList"].push_back(node);
+                const auto& routeList = config["routeList"];
+                std::cout << "routeList type:" << routeList.Type() << std::endl;
+                if(!routeList.IsSequence())
+                {
+                    std::cout << "routeList Is not Sequence" << std::endl;
+                    return false;
+                }
+                if(!routeList.size())
+                {
+                    std::cout << "routeList size is 0" << std::endl;
+                    return false;
+                }
+                for (auto &&info : config["routeList"])
+                {
+                    info["routeState"] = (char)0x11;
+                    info["mapState"] = (char)0x11;
+                }
                 //write conf
                 std::ofstream fout(path);
                 fout << config;
@@ -86,6 +96,7 @@ namespace yaml
             {
                 std::cout << "ocuer error" << std::endl;
             }
+            return true;
             
         }
         void YamlDemo::DelYaml(){
