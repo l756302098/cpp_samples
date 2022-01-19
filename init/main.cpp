@@ -9,23 +9,13 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
-
 #include <iostream>
-#include "FilePath.h"
 
 
 
 int main(int argc, char *argv[])
 {
     std::cout << "monitor disk" << std::endl;
-    /*
-    struct statfs diskInfo;
-    std::string exePath = swr::util::FilePath::GetCurExePath();
-    statfs(exePath.c_str(), &diskInfo);
-    auto totalBlocks = diskInfo.f_bsize;
-    auto freeDisk = diskInfo.f_bfree * totalBlocks;
-    std::cout << "Free disk size: " << freeDisk / 1024 / 1024 / 1024 << "GB";
-    */
     float time1 = 5 * 1e-6;
     float time2 = 5 * 1e6;
     printf("%f %f \n",time1,time2);

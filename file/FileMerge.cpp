@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <iostream>
-#include "FilePath.h"
+#include "../FilePath.h"
 
 void SplitFile(){
 	//split image into 10 parts
@@ -46,7 +46,7 @@ void SplitFile(){
 	delete buf;
 }
 
-void MergeFile(){
+void MergeFile1(){
 	size_t total = 60750;
 	size_t unitSize = total / 10;
 	char *buf = new char[total]; 
@@ -148,27 +148,10 @@ void MergeFile3(){
 
 int main(int argc, char *argv[])
 {
-	//SplitFile();
+	SplitFile();
+	MergeFile1();
 	MergeFile2();
-	// {
-	// 	FILE *fp;
-	// 	char c[] = "This is runoob";
-	// 	char buffer[20];
-		
-	// 	/* 打开文件用于读写 */
-	// 	fp = fopen("/home/li/file.txt", "w+");
-		
-	// 	/* 写入数据到文件 */
-	// 	fwrite(c, strlen(c), 1, fp);
-		
-	// 	/* 查找文件的开头 */
-	// 	fseek(fp, 0, SEEK_SET);
-		
-	// 	/* 读取并显示数据 */
-	// 	fread(buffer, strlen(c), 1, fp);
-	// 	printf("%s\n", buffer);
-	// 	fclose(fp);
-	// }
+	MergeFile3();
 
     return 0;
 }

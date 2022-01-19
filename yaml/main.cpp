@@ -11,10 +11,7 @@
 
 #include <iostream>
 #include "YamlDemo.h"
-#include "FilePath.h"
-#include "Person.h"
-#include "Student.h"
-#include "Teacher.h"
+#include "../FilePath.h"
 
 struct HlcInfo
 {
@@ -60,20 +57,6 @@ int main(int argc, char *argv[])
 {
     std::cout << "Start yaml demo!" << std::endl;
 
-    /*
-    int a = 0;
-    int b = 0;
-    std::cout << "a:" << a++ << std::endl;
-    std::cout << "b:" << ++b << std::endl;
-
-    std::cout << "a:" << a << std::endl;
-    std::cout << "b:" << b << std::endl;
-    
-    
-    demo.SaveToYaml();
-    demo.ReadAndWriteYaml();
-    demo.DelYaml2();
-    */
     yaml::demo::YamlDemo demo;
     demo.ReadAndWriteYaml();
     demo.SaveToYaml();
