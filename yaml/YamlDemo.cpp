@@ -84,8 +84,9 @@ namespace yaml
                 }
                 for (auto &&info : config["routeList"])
                 {
-                    info["routeState"] = (char)0x11;
-                    info["mapState"] = (char)0x11;
+                    info["routeState"] = (uint16_t)0x11;
+                    info["mapState"] = (uint16_t)0x11;
+                    info["pngState"] = (uint16_t)0x11;
                 }
                 //write conf
                 std::ofstream fout(path);
@@ -97,6 +98,74 @@ namespace yaml
                 std::cout << "ocuer error" << std::endl;
             }
             return true;
+            
+        }
+        void YamlDemo::SimUpdateYaml()
+        {
+            std::string dir = "/home/li/map";
+            if (!swr::util::FilePath::IsFileExisted(dir))
+            {
+                swr::util::FilePath::CreateDirR(dir.c_str());
+            }
+            std::string path = dir + "/info.yaml";
+            if (!swr::util::FilePath::IsFileExisted(path))
+            {
+                std::ofstream fout(path);
+                fout << "routeList:" << std::endl;
+                fout.close();
+            }
+            try
+            {
+                std::vector<YAML::Node> routeVector;
+                {
+                    YAML::Node cacheInfo = YAML::LoadFile(path);
+                    YAML::Node operationRecords = cacheInfo["routeList"];
+                    for(auto&& node : operationRecords)
+                    {
+                        std::cout << "routeCode:" << node["routeCode"].as<std::string>() << std::endl;
+                        routeVector.emplace_back(node);
+                    }
+                }
+                for (size_t i = 0; i < routeVector.size(); i++)
+                {
+                    auto& node = routeVector[i];
+                    node["flag"] = 'D';
+                }
+                //remove from yaml
+                std::string newPath = dir + "info.back.yaml";
+                if (!swr::util::FilePath::IsFileExisted(newPath))
+                {
+                    std::ofstream fout(newPath);
+                    fout << "routeList:" << std::endl;
+                    fout.close();
+                }
+                YAML::Node newConfig = YAML::LoadFile(newPath);
+                for (size_t i = 0; i < routeVector.size(); i++)
+                {
+                    if (routeVector[i]["flag"].as<char>() != 'D')
+                    {
+                        newConfig["routeList"].push_back(routeVector[i]);
+                    }
+                }
+                //write new conf
+                std::ofstream fout(newPath);
+                fout << newConfig;
+                fout.close();
+                //del old config
+                bool isDel = swr::util::FilePath::DeleteFile(path.c_str());
+                if(isDel)
+                {
+                    bool isRename = swr::util::FilePath::RenameFile(newPath.c_str(),path.c_str());
+                    if(isRename)
+                    {
+                        std::cout << "update yaml success" << std::endl;
+                    }
+                }
+            }
+            catch(const std::exception& e)
+            {
+                std::cerr << e.what() << '\n';
+            }
             
         }
         void YamlDemo::DelYaml(){
@@ -170,6 +239,59 @@ namespace yaml
             std::ofstream fout(path);
             fout << localInfo;
             fout.close();
+        }
+        void YamlDemo::DelYaml3()
+        {
+            try
+            {
+                std::string path = "/home/li/map/info.yaml";
+                std::vector<YAML::Node> newConfigNodes;
+                YAML::Node localInfo = YAML::LoadFile(path);
+                YAML::Node routeList = localInfo["routeList"];
+                for (size_t i = 0; i < routeList.size(); i++){
+                    const auto& slotCode = routeList[i]["slotCode"].as<std::string>();
+                    const auto& routeCode = routeList[i]["routeCode"].as<std::string>();
+                    std::cout << "slotCode:" << slotCode << " routeCode:" << routeCode << std::endl;
+                    if(slotCode.compare("K") == 0){
+                        //del file
+                        std::cout << "del " << routeCode << std::endl;
+                    }
+                    else{
+                        newConfigNodes.emplace_back(routeList[i]);
+                    }
+                }
+                std::string newPath = "/home/li/map/info.back.yaml";
+                if (!swr::util::FilePath::IsFileExisted(newPath))
+                {
+                    std::ofstream fout(newPath);
+                    fout << "routeList:" << std::endl;
+                    fout.close();
+                }
+                YAML::Node newConfig = YAML::LoadFile(newPath);
+                for (size_t i = 0; i < newConfigNodes.size(); i++)
+                {
+                    newConfig["routeList"].push_back(newConfigNodes[i]);
+                }
+                //write new conf
+                std::ofstream fout(newPath);
+                fout << newConfig;
+                fout.close();
+                //del old config
+                bool isDel = swr::util::FilePath::DeleteFile(path.c_str());
+                if(isDel)
+                {
+                    bool isRename = swr::util::FilePath::RenameFile(newPath.c_str(),path.c_str());
+                    if(isRename)
+                    {
+                        std::cout << "update yaml success" << std::endl;
+                    }
+                }
+            }
+            catch(const YAML::Exception& e)
+            {
+                std::cerr << e.what() << '\n';
+            }
+            
         }
     }
 }

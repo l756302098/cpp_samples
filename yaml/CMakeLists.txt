@@ -20,7 +20,7 @@ else()
     message (FATAL_ERROR "Cannot find Boost")
 endif()
 
-find_package(yaml-cpp REQUIRED)
+find_package(yaml-cpp 0.6.5 REQUIRED)
 if(yaml-cpp_FOUND)
     message ("yaml-cpp found")
     message (${yaml-cpp_VERSION})

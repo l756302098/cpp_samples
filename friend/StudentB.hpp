@@ -3,12 +3,13 @@
 
 #include <iostream>
 #include "StudentA.hpp"
+#include "Student.h"
 
 namespace aa
 {
     namespace bbb
     {
-        class StudentB
+        class StudentB :public Student
         {
         private:
             /* data */
@@ -16,6 +17,11 @@ namespace aa
         public:
             StudentB(/* args */);
             ~StudentB();
+            void Test() override
+            {
+                aa::aaa::StudentA a;
+                a.Print("hello world.");
+            }
             bool Print(){
                 aa::aaa::StudentA a;
                 a.Print("hello world.");
