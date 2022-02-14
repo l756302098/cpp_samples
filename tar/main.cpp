@@ -28,7 +28,6 @@ int main(int argc, char *argv[])
     {
         std::cout << "tar compress faile." << std::endl;
     }
-
     //rename
 
 
@@ -41,7 +40,6 @@ int main(int argc, char *argv[])
     {
         std::cout << "uncompress failed." << std::endl;
     }
-
     return 0;
 }
 
