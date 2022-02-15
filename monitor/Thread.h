@@ -9,6 +9,7 @@
 #include <condition_variable>
 #include <atomic>
 #include "Rate.h"
+#include <iostream>
 
 namespace swr {
 
@@ -43,6 +44,7 @@ public:
 
     Thread()
     {
+        std::cout << "Thread" << std::endl;
         running = false;
         interrupted = false;
         th = nullptr;
@@ -50,6 +52,7 @@ public:
 
     virtual ~Thread()
     {
+        std::cout << "~Thread" << std::endl;
         if (th != nullptr)
         {
             if (th->joinable())

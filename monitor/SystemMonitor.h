@@ -2,11 +2,13 @@
 #define __SYSTEM_MOMITOR_
 
 #include "Thread.h"
+#include "LoopThread.h"
 #include <iostream>
 
 class SystemMonitor: public swr::util::Thread
 {
 private:
+    swr::util::LoopThread *lth;
     /* data */
     double cpuUsedPecent = 0.0;
     std::uint32_t memUsedBytes = 0;
@@ -20,6 +22,7 @@ public:
     SystemMonitor(/* args */);
     ~SystemMonitor();
     void Init();
+    bool Stop();
 };
 
 #endif

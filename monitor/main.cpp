@@ -11,12 +11,17 @@
 
 int main(int argc, char *argv[])
 {
-    SystemMonitor sm;
-    sm.Init();
-    while (1)
+    SystemMonitor *sm;
+    sm = new SystemMonitor();
+    sm->Init();
+    int counter = 10;
+    while (counter > 0)
     {
         sleep(1);
+        --counter;
     }
+    sm->Stop();
+    delete sm;
     return 0;
 }
 

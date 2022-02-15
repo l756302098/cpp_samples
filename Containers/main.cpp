@@ -6,42 +6,36 @@
  */
 
 #include <iostream>
-#include <list>
+#include <set>
 
 int main ()
 {
-    std::list<int> mylist;
-    std::list<int>::iterator it1,it2;
+    std::set<int> myset;
+    std::set<int>::iterator it;
 
-    // set some values:
-    for (int i=1; i<10; ++i) mylist.push_back(i*10);
+    // insert some values:
+    for (int i=1; i<10; i++) myset.insert(i*10);  // 10 20 30 40 50 60 70 80 90
 
-                                // 10 20 30 40 50 60 70 80 90
-    it1 = it2 = mylist.begin(); // ^^
-    advance (it2,6);            // ^                 ^
-    std::cout << "it2:" << *it2 << std::endl;
-    ++it1;                      //    ^              ^
+    it = myset.begin();
+    ++it;                                         // "it" points now to 20
 
-    it1 = mylist.erase (it1);   // 10 30 40 50 60 70 80 90
-                                //    ^           ^
-    std::cout << "it1:" << *it1 << std::endl;
+    myset.erase (it);
 
-    it2 = mylist.erase (it2);   // 10 30 40 50 60 80 90
-                                //    ^           ^
+    int dSize = myset.erase (40);
+    std::cout << "del size:" << dSize << std::endl;
 
-    ++it1;                      //       ^        ^
-    --it2;                      //       ^     ^
-    std::cout << "it1:" << *it1 << std::endl;
-    std::cout << "it2:" << *it2 << std::endl;
+    it = myset.find (60);
+    myset.erase (it, myset.end());
 
-    mylist.erase (it1,it2);     // 10 30 60 80 90
-                                //        ^
-
-    std::cout << "mylist contains:";
-    for (it1=mylist.begin(); it1!=mylist.end(); ++it1)
-        std::cout << ' ' << *it1;
+    std::cout << "myset contains:";
+    for (it=myset.begin(); it!=myset.end(); ++it)
+    std::cout << ' ' << *it;
     std::cout << '\n';
+
+    dSize = myset.erase (40);
+    std::cout << "del size:" << dSize << std::endl;
 
     return 0;
 }
+
 
