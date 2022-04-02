@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 # Set the project name
-project (yaml_samples)
+project (md5_samples)
 # coverage option
 # OPTION (ENABLE_COVERAGE "Use gcov" OFF)
 # MESSAGE(STATUS ENABLE_COVERAGE=${ENABLE_COVERAGE})
@@ -20,18 +20,7 @@ else()
     message (FATAL_ERROR "Cannot find Boost")
 endif()
 
-find_package(yaml-cpp 0.7.0 REQUIRED)
-if(yaml-cpp_FOUND)
-    message ("yaml-cpp found")
-    message (${yaml-cpp_VERSION})
-else()
-    message ("Cannot find yaml-cpp")
-endif()
-
 include_directories(${Boost_INCLUDE_DIRS})
-add_executable(yaml_samples main.cpp YamlDemo.cpp)
+add_executable(md5_samples main.cpp)
 
-target_link_libraries(yaml_samples
-${Boost_LIBRARIES}
-yaml-cpp
-pthread)
+target_link_libraries(md5_samples ${Boost_LIBRARIES} pthread)

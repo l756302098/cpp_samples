@@ -16,7 +16,7 @@ namespace yaml
         void YamlDemo::ReadAndWriteYaml()
         {
             //fix bug
-            std::string dir = "/home/li/map";
+            std::string dir = "/home/li/log";
             if (!swr::util::FilePath::IsFileExisted(dir))
             {
                 swr::util::FilePath::CreateDirR(dir.c_str());
@@ -43,14 +43,54 @@ namespace yaml
             }
             for (const auto &info : localInfo["routeList"])
             {
-                std::string routeName = info["routeName"].as<std::string>();
-                std::cout << "routeName:" << routeName << std::endl;
-                std::uint8_t routeState = info["routeState"].as<uint8_t>();
-                std::cout << "routeState:" << (std::uint16_t)routeState << std::endl;
-                std::uint8_t mapState = info["mapState"].as<uint8_t>();
-                std::cout << "mapState:" << (std::uint16_t)mapState << std::endl;
+                ParseRouteInfo(info);
+                // std::string routeName = info["routeName"].as<std::string>();
+                // std::cout << "routeName:" << routeName << std::endl;
+                // std::uint8_t routeState = info["routeState"].as<uint8_t>();
+                // std::cout << "routeState:" << (std::uint16_t)routeState << std::endl;
+                // std::uint8_t mapState = info["mapState"].as<uint8_t>();
+                // std::cout << "mapState:" << (std::uint16_t)mapState << std::endl;
             }
         }
+
+        bool YamlDemo::ParseRouteInfo(const YAML::Node& info)
+        {
+            try {
+                std::string siteCode = info["siteCode"].as<std::string>();
+                std::string hlcCode = info["hlcCode"].as<std::string>();
+                char slotCode = info["slotCode"].as<char>();
+                uint64_t mapId = info["mapId"].as<uint64_t>();
+                std::string routeCode = info["routeCode"].as<std::string>();
+                std::string bodyNum = info["bodyNum"].as<std::string>();
+                std::string machineName = info["machineName"].as<std::string>();
+                std::string routeName = info["routeName"].as<std::string>();
+                int size = info["size"].as<int>();
+                int time = info["time"].as<int>();
+                int model = info["model"].as<int>();
+                std::string mapPath = "/" + siteCode + "/" + hlcCode + "/" + routeCode + "/" + routeCode + ".map";
+                std::string pngPath = "/" + siteCode + "/" + hlcCode + "/" + routeCode + "/" + routeCode + ".png";
+                std::string routePath = "/" + siteCode + "/" + hlcCode + "/" + routeCode + "/" + routeCode + ".route";
+                std::string configPath = "/" + siteCode + "/" + hlcCode + "/" + routeCode + "/" + routeCode + ".yaml";
+                std::string semanticPath = info["semanticPath"].as<std::string>();
+                uint8_t mapState = info["mapState"].as<uint8_t>();
+                uint8_t pngState = info["pngState"].as<uint8_t>();
+                uint8_t routeState = info["routeState"].as<uint8_t>();
+                uint8_t configState = info["configState"].as<uint8_t>();
+                bool enableVirtualWall = info["enableVirtualWall"].as<bool>();
+                std::cout << "ParseRouteInfo success." << siteCode << " mapId:" << mapId;
+                return true;
+            }
+            catch(const YAML::Exception& e)
+            {
+                std::cout << e.what();
+            }
+            catch (...) {
+                std::cout << "ParseRouteInfo failed";
+            }
+
+            return false;
+        }
+
         bool YamlDemo::SaveToYaml()
         {
             std::string dir = "/home/li/map";
@@ -293,5 +333,103 @@ namespace yaml
             }
             
         }
+
+        void YamlDemo::TestRead()
+        {
+            std::string dir = "/home/li";
+            if (!swr::util::FilePath::IsFileExisted(dir))
+            {
+                swr::util::FilePath::CreateDirR(dir.c_str());
+            }
+            std::string path = dir + "/info.yaml";
+            if (!swr::util::FilePath::IsFileExisted(path))
+            {
+                std::ofstream fout(path);
+                fout << "name:" << std::endl;
+                fout.close();
+            }
+            YAML::Node localInfo = YAML::LoadFile(path);
+            //const auto& routeList = localInfo["taskList"];
+            //std::cout << "taskList type:" << routeList.Type() << std::endl;
+            // if(!routeList.IsSequence())
+            // {
+            //     std::cout << "routeList Is not Sequence" << std::endl;
+            //     return;
+            // }
+            for (const auto &info : localInfo["taskList"])
+            {
+                TestRouteInfo(info);
+            }
+        }
+
+        void YamlDemo::TestAdd()
+        {
+            std::string dir = "/home/li";
+            if (!swr::util::FilePath::IsFileExisted(dir))
+            {
+                swr::util::FilePath::CreateDirR(dir.c_str());
+            }
+            std::string path = dir + "/info.yaml";
+            if (!swr::util::FilePath::IsFileExisted(path))
+            {
+                std::ofstream fout(path);
+                fout << "name:" << std::endl;
+                fout.close();
+            }
+            //YAML::Node localInfo = YAML::LoadFile(path);
+            //const auto& routeList = localInfo["taskList"];
+            //std::cout << "taskList type:" << routeList.Type() << std::endl;
+            // if(!routeList.IsSequence())
+            // {
+            //     std::cout << "routeList Is not Sequence" << std::endl;
+            //     return;
+            // }
+            YAML::Node config = YAML::LoadFile(path);
+            YAML::Node node;
+            node["operation"] = (std::uint16_t)0x01;
+            node["resourceType"] = (std::uint16_t)0x01;
+            node["siteCode"] = 101;
+            node["hlcCode"] = 0;
+            node["slotCode"] = (std::uint16_t)'A';
+            node["routeName"] = "routeName";
+            node["time"] = 0;
+            node["model"] = (std::uint16_t)0x01;
+            node["mapPath"] = "/root/info";
+            node["mapId"] = 123456;
+            node["routePath"] = "/root/info";
+            node["pngPath"] = "/root/info";
+            node["semanticPath"] = "/root/info";
+            node["routeCode"] = "fcbsa123";
+            config["taskList"].push_back(node);
+            std::ofstream fout(path);
+            fout << config;
+            fout.close();
+            std::cout << "update taskQueue yaml success" << std::endl;
+        }
+
+        bool YamlDemo::TestRouteInfo(const YAML::Node& node)
+        {
+            std::uint16_t operation = node["operation"].as<std::uint16_t>();
+            std::uint16_t resType = node["resourceType"].as<std::uint16_t>();
+            std::string siteCode = node["siteCode"].as<std::string>();
+            std::string hlcCode = node["hlcCode"].as<std::string>();
+            std::uint16_t slotCode = node["slotCode"].as<std::uint16_t>();
+            std::uint64_t mapId = node["mapId"].as<uint64_t>();
+            std::string  routeCode = node["routeCode"].as<std::string>();
+            std::string routeName = node["routeName"].as<std::string>();
+            int time = node["time"].as<int>();
+            std::uint16_t model = node["model"].as<std::uint16_t>();
+            std::string mapPath = node["mapPath"].as<std::string>();
+            std::string pngPath = node["pngPath"].as<std::string>();
+            std::string routePath = node["routePath"].as<std::string>();
+            std::string semanticPath = node["semanticPath"].as<std::string>();
+            if(node["configState"])
+            {
+                uint16_t configState = node["configState"].as<uint16_t>();
+            }
+            std::cout << "ParseItem success." << siteCode;
+            return true;
+        }
+
     }
 }

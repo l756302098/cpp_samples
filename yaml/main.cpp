@@ -58,10 +58,10 @@ int main(int argc, char *argv[])
     std::cout << "Start yaml demo!" << std::endl;
 
     yaml::demo::YamlDemo demo;
-    //demo.ReadAndWriteYaml();
-    //demo.SaveToYaml();
-    //demo.DelYaml3();
-    demo.SimUpdateYaml();
+    //demo.TestAdd();
+    //demo.TestAdd();
+    demo.TestRead();
+    //demo.SimUpdateYaml();
     return 0;
 }
 

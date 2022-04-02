@@ -24,6 +24,10 @@ namespace yaml
             void DelYaml();
             void DelYaml2();
             void DelYaml3();
+            bool ParseRouteInfo(const YAML::Node& info);
+            void TestRead();
+            void TestAdd();
+            bool TestRouteInfo(const YAML::Node& info);
         };
     }
 }

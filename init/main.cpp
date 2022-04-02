@@ -54,14 +54,45 @@ int main(int argc, char *argv[])
     // printf("char cc = %c \n",cc);
     // printf("string aa = %s \n",aa);
 
-    RouteInfo ri;
-    memset(&ri,0,sizeof(RouteInfo));
-    printf("int png path = %s state = %d \n",ri.pngPath.c_str(),ri.pngState);
-    printf("int map state = %d \n",ri.mapState);
-    printf("int route state = %d \n",ri.routeState);
-    printf("int config state = %d \n",ri.configState);
+    // RouteInfo ri;
+    // //memset(&ri,0,sizeof(RouteInfo));
+    // printf("int png path = %s state = %d \n",ri.pngPath.c_str(),ri.pngState);
+    // printf("int map state = %d \n",ri.mapState);
+    // printf("int route state = %d \n",ri.routeState);
+    // printf("int config state = %d \n",ri.configState);
 
-    std::cout << "" << ri.routePath << " " << ri.routePath.empty() << std::endl;
+    // std::cout << "" << ri.routePath << " " << ri.routePath.empty() << std::endl;
+    // memset(&ri,0,sizeof(RouteInfo));
+
+    // std::string a;
+    // memset(&a,0,sizeof(std::string));
+    // std::cout << "a:" << a;
+    // a = "123";
+    // std::cout << "size:" << a.size();
+    // RouteInfo ri1;
+    // memset(&ri1,0,sizeof(RouteInfo));
+    // printf("int png path = %s state = %d \n",ri1.pngPath.c_str(),ri1.pngState);
+    // std::cout << "empty:" << ri.pngPath.empty() << " " << ri.pngPath << std::endl;
+    // std::cout << "empty:" << ri1.pngPath.empty() << " " << ri1.pngPath << std::endl;
+    // ri1.pngPath = ri.pngPath.empty() ? "" : ri.pngPath;
+    // printf("int png path = %s state = %d \n",ri1.pngPath.c_str(),ri1.pngState);
+    // printf("int map state = %d \n",ri1.mapState);
+    // printf("int route state = %d \n",ri1.routeState);
+    // printf("int config state = %d \n",ri1.configState);
+
+    std::string a,b;
+    printf("a = %s b = %s \n",a.c_str(),b.c_str());
+    memset(&a,0,sizeof(std::string));
+    printf("a = %s b = %s \n",a.c_str(),b.c_str());
+    b = a;
+    printf("a = %s b = %s \n",a.c_str(),b.c_str());
+    std::cout << "a:" << a << std::endl;
+
+    int c,d;
+    printf("c = %i,d = %i",c,d);
+    c = 0;
+    d = 0;
+    printf("c++ = %i,++d = %i",c++,++d);
 
     return 0;
 }

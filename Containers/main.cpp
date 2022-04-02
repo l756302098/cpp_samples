@@ -6,36 +6,80 @@
  */
 
 #include <iostream>
-#include <set>
+#include <list>
+#include <functional>
+
+struct Map
+{
+    int id;
+    std::uint32_t time;
+};
+
+
+class MapManager
+{
+public:
+    MapManager();
+    ~MapManager();
+    bool CompareRoute(const Map& first, const Map& second);
+    void Test();
+};
+
+MapManager::MapManager()
+{
+}
+
+MapManager::~MapManager()
+{
+}
+
+bool MapManager::CompareRoute(const Map& first, const Map& second)
+{
+    if(first.time < second.time)
+    {
+        return true;
+    }
+    return false;
+}
+
+void MapManager::Test()
+{
+    std::list<Map> mapList;
+    Map map1;
+    map1.id = 1;
+    map1.time = 1000;
+    mapList.push_back(map1);
+    Map map2;
+    map2.id = 2;
+    map2.time = 1001;
+    mapList.push_back(map2);
+    Map map3;
+    map3.id = 3;
+    map3.time = 666;
+    mapList.push_back(map3);
+    for (auto &&item : mapList)
+    {   
+        std::cout << item.id << " " << item.time << std::endl; 
+    }
+    mapList.sort([](const Map& first, const Map& second)->bool{
+        if(first.time < second.time)
+        {
+            return true;
+        }
+        return false;
+    });
+    std::cout << "----------------" << std::endl; 
+    for (auto &&item : mapList)
+    {   
+        std::cout << item.id << " " << item.time << std::endl; 
+    }
+}
+
 
 int main ()
 {
-    std::set<int> myset;
-    std::set<int>::iterator it;
-
-    // insert some values:
-    for (int i=1; i<10; i++) myset.insert(i*10);  // 10 20 30 40 50 60 70 80 90
-
-    it = myset.begin();
-    ++it;                                         // "it" points now to 20
-
-    myset.erase (it);
-
-    int dSize = myset.erase (40);
-    std::cout << "del size:" << dSize << std::endl;
-
-    it = myset.find (60);
-    myset.erase (it, myset.end());
-
-    std::cout << "myset contains:";
-    for (it=myset.begin(); it!=myset.end(); ++it)
-    std::cout << ' ' << *it;
-    std::cout << '\n';
-
-    dSize = myset.erase (40);
-    std::cout << "del size:" << dSize << std::endl;
-
+    MapManager mm;
+    mm.Test();
     return 0;
 }
-
 
