@@ -12,6 +12,6 @@ project (file_samples)
 #     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs -ftest-coverage") 
 # ENDIF()
 
-add_executable(file_samples FileMerge.cpp)
+add_executable(file_samples FileDel.cpp)
 
 target_link_libraries(file_samples pthread)
