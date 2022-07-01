@@ -80,19 +80,52 @@ int main(int argc, char *argv[])
     // printf("int route state = %d \n",ri1.routeState);
     // printf("int config state = %d \n",ri1.configState);
 
-    std::string a,b;
-    printf("a = %s b = %s \n",a.c_str(),b.c_str());
-    memset(&a,0,sizeof(std::string));
-    printf("a = %s b = %s \n",a.c_str(),b.c_str());
-    b = a;
-    printf("a = %s b = %s \n",a.c_str(),b.c_str());
-    std::cout << "a:" << a << std::endl;
+    // std::string a,b;
+    // printf("a = %s b = %s \n",a.c_str(),b.c_str());
+    // memset(&a,0,sizeof(std::string));
+    // printf("a = %s b = %s \n",a.c_str(),b.c_str());
+    // b = a;
+    // printf("a = %s b = %s \n",a.c_str(),b.c_str());
+    // std::cout << "a:" << a << std::endl;
 
-    int c,d;
-    printf("c = %i,d = %i",c,d);
-    c = 0;
-    d = 0;
-    printf("c++ = %i,++d = %i",c++,++d);
+    // int c,d;
+    // printf("c = %i,d = %i",c,d);
+    // c = 0;
+    // d = 0;
+    // printf("c++ = %i,++d = %i",c++,++d);
+
+    if(-1)
+    {
+        std::cout << " -1 is true.";
+    }
+    else{
+        std::cout << " -1 is false.";
+    }
+
+    //std::string package_name = "INDEMINDAPP_I18R_EVT2_INTG_1.0.17_1.0.14.tgz";
+    std::string package_name = "INDEMINDAPP_DVT_0627.deb";
+
+    // 获取版本号
+    auto rdot_1 = package_name.rfind('.');
+    if(std::string::npos == rdot_1) return false;
+    auto split_pos = package_name.rfind('_');
+    auto all_name = package_name.substr(split_pos + 1, package_name.length() - split_pos - 5);
+    std::cout << "get version success.  all_name:" << all_name << std::endl;
+
+    auto rdot_2 = package_name.rfind('.', rdot_1 - 1);
+    if(std::string::npos == rdot_2) return false;
+    auto rdot_3 = package_name.rfind('.', rdot_2 - 1);
+    if(std::string::npos == rdot_3) return false;
+
+    // 获取完整名称
+    
+
+    auto hi_str = package_name.substr(rdot_3 + 1, rdot_2 - rdot_3 - 1);
+    auto lo_str = package_name.substr(rdot_2 + 1, rdot_1 - rdot_2 - 1);
+    
+
+    std::cout << "rdot_1:" << rdot_1 << " "<<package_name.length() << std::endl;
+    std::cout << "get version success. hi: " << hi_str << ", lo: " << lo_str << " all_name:" << all_name << std::endl;
 
     return 0;
 }

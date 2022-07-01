@@ -12,6 +12,11 @@ project (epoll_samples)
 #     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs -ftest-coverage") 
 # ENDIF()
 
-add_executable(epoll_server main.cpp)
+#add_executable(epoll_server main.cpp)
+
+add_executable(epoll_server main.cpp tcp_server.cpp)
 
 add_executable(epoll_client client.cpp)
+
+target_link_libraries(epoll_server
+pthread)
