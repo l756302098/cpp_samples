@@ -26,6 +26,11 @@ namespace abby {
         servaddr.sin_family = AF_INET;
         inet_pton(AF_INET, ip, &servaddr.sin_addr);
         servaddr.sin_port = htons(port);
+        /*set SO_REUSEPORT*/
+        int val =1;
+        if (setsockopt(listenfd, SOL_SOCKET, SO_REUSEPORT, &val, sizeof(val))<0) {
+            perror("setsockopt()");
+        }
         if(bind(listenfd, (struct sockaddr*)&servaddr, sizeof(servaddr)) == -1)
         {
             perror("bind error:");
