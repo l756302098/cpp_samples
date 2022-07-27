@@ -94,6 +94,10 @@ int main(int argc, char *argv[])
     // d = 0;
     // printf("c++ = %i,++d = %i",c++,++d);
 
+    uint16_t iData = 63;
+    bool isStop = ((iData >> 1 & 0x0001) == 0x0001);
+    std::cout << " isStop:" <<isStop;
+
     if(-1)
     {
         std::cout << " -1 is true.";
