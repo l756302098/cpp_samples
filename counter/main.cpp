@@ -59,19 +59,23 @@ int main()
 {  
     //watchMap["hi"].Tick();
     //testMap["li"].Add();
-    std::cout << "size:" << watchMap.size() << std::endl;
+    // std::cout << "size:" << watchMap.size() << std::endl;
 
-    std::thread first (test);
+    // std::thread first (test);
 
-    while (1)
-    {
-        watchMap["hi"].Tick();
-        watchMap["hello"].Tick();
-        //std::cout << "size:" << watchMap.size() << std::endl;
-        std::cout << "hi hz:" << watchMap["hi"].GetHz() << std::endl;
-        std::cout << "hello hz:" << watchMap["hello"].GetHz() << std::endl;
-        usleep(100000);
-    }
+    // while (1)
+    // {
+    //     watchMap["hi"].Tick();
+    //     watchMap["hello"].Tick();
+    //     //std::cout << "size:" << watchMap.size() << std::endl;
+    //     std::cout << "hi hz:" << watchMap["hi"].GetHz() << std::endl;
+    //     std::cout << "hello hz:" << watchMap["hello"].GetHz() << std::endl;
+    //     usleep(100000);
+    // }
+
+    uint64_t now = swr::util::Now();
+    std::cout << "now:" << now << std::endl;
+
 
     return 0;  
 }  

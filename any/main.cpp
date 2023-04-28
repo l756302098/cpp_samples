@@ -1,29 +1,30 @@
 #include <iostream>
-using namespace std;
-class demo{
-public:
-    demo():num(new int(0)){
-        cout<<"construct!"<<endl;
-    }
+#include "Data.h"
 
-    demo(const demo &d):num(new int(*d.num)){
-        cout<<"copy construct!"<<endl;
-    }
-    //添加移动构造函数
-    demo(demo &&d):num(d.num){
-        d.num = NULL;
-        cout<<"move construct!"<<endl;
-    }
-    ~demo(){
-        cout<<"class destruct!"<<endl;
-    }
-private:
-    int *num;
+struct Data
+{
+    std::string name;
+    std::string path;
+    int age;
+    swr::base_types::Data<bool> enableVirtualWall;
 };
-demo get_demo(){
-    return demo();
-}
+
+
 int main(){
-    demo a = get_demo();
+    
+    const Data data1{"li","/root"};
+    std::cout << "name:" << data1.age << " path:" << data1.path 
+    << " age:" << data1.age
+    << std::endl;
+
+    Data *tempData = (Data*)&data1;
+    (*tempData).enableVirtualWall = false;
+
+    Data data2 = data1;
+    std::cout << "name:" << data2.age 
+    << " path:" << data2.path 
+    << " age:" << data2.age
+    << std::endl;
+
     return 0;
 }
