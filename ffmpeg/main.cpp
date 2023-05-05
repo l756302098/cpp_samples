@@ -25,7 +25,7 @@ extern "C"
 
 
 char* input_name= "video4linux2";
-char* file_name = "/dev/video0";
+char* file_name = "/dev/video2";
 char* out_file  = "test.jpeg";
 
 #define INBUF_SIZE 4096
@@ -57,10 +57,15 @@ static void decode(AVCodecContext *dec_ctx, AVFrame *frame, AVPacket *pkt,
 
     while (ret >= 0) {
         ret = avcodec_receive_frame(dec_ctx, frame);
-        if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
+        if (ret == AVERROR(EAGAIN))
         {
-          fprintf(stderr, "Error during decoding 0\n");
-          return;
+            fprintf(stderr, "Error during decoding 0\n");
+            continue;
+        }
+        else if(ret == AVERROR_EOF)
+        {
+            fprintf(stderr, "Error during decoding 1\n");
+            return;
         }
         else if (ret < 0) {
             fprintf(stderr, "Error during decoding\n");
@@ -143,13 +148,17 @@ int main(int argc, char **argv) {
     /* print device information*/
     av_dump_format(fmtCtx, 0, file_name, 0);
 
-    packet = (AVPacket *)av_malloc(sizeof(AVPacket));    
-    av_read_frame(fmtCtx, packet); 
-    printf("data length = %d\n",packet->size);   
- 
-    decode(c, frame, packet, out_file);
+    do
+    {
+        packet = (AVPacket *)av_malloc(sizeof(AVPacket));    
+        av_read_frame(fmtCtx, packet); 
+        printf("data length = %d\n",packet->size);   
     
-    av_free(packet);  
+        decode(c, frame, packet, out_file);
+        
+        av_free(packet);  
+    } while (1);
+    
     avformat_close_input(&fmtCtx);
  
     return 0;
