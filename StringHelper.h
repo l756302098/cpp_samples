@@ -34,7 +34,32 @@ public:
         return dst_str;
     }
 
+    // Split string.
+    // e.g.  data = "a/b/c"  delim = '/'  >  "a" "b" "c"
     static inline std::vector<std::string> Split(const std::string& data,
+                                                 char delim) {
+        std::vector<std::string> vecString;
+
+        std::size_t pos1 = 0;
+        std::size_t pos2 = data.find(delim);
+
+        while (std::string::npos != pos2) {
+            if (0 != (pos2 - pos1)) {
+                vecString.push_back(data.substr(pos1, pos2 - pos1));
+            }
+            pos1 = pos2 + 1;
+            pos2 = data.find(delim, pos1);
+        }
+
+        std::string&& sub = data.substr(pos1);
+        if (!sub.empty()) {
+            vecString.push_back(sub);
+        }
+
+        return vecString;
+    }
+
+    static inline std::vector<std::string> Split2(const std::string& data,
                                                  char delim) {
         std::vector<std::string> vecString;
 

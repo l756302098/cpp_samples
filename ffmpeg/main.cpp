@@ -25,7 +25,7 @@ extern "C"
 
 
 char* input_name= "video4linux2";
-char* file_name = "/dev/video2";
+char* file_name = "/dev/video0";
 char* out_file  = "test.jpeg";
 
 #define INBUF_SIZE 4096

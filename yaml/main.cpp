@@ -10,6 +10,7 @@
 #include <unistd.h>
 
 #include <iostream>
+#include <fstream>
 #include "YamlDemo.h"
 #include "../FilePath.h"
 
@@ -53,14 +54,38 @@ void LoopDemo(){
 	std::cout << "end loop" << std::endl;
 }
 
+bool UpadteConfig(const std::string& lastDate)
+{
+    std::string filepath = "/home/li/log_config.yaml";
+
+    //read config
+    try
+    {
+        YAML::Node config = YAML::LoadFile(filepath);
+        config["last_time"] = lastDate;
+        std::cout << "update last_time:" << lastDate << std::endl;
+        //write new conf
+        std::ofstream fout(filepath);
+        fout << config;
+        fout.close();
+    }
+    catch(...)
+    {
+        std::cout  << "config.json parse failed." << filepath << std::endl;
+        return false;
+    }
+    return true;
+}
+
 int main(int argc, char *argv[])
 {
     std::cout << "Start yaml demo!" << std::endl;
 
-    yaml::demo::YamlDemo demo;
-    //demo.TestAdd();
-    //demo.TestAdd();
-    demo.TestRead();
+    UpadteConfig("1");
+    // yaml::demo::YamlDemo demo;
+    // //demo.TestAdd();
+    // //demo.TestAdd();
+    // demo.TestRead();
     //demo.SimUpdateYaml();
     return 0;
 }
