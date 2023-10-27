@@ -21,6 +21,34 @@ struct HlcInfo
 };
 
 
+void CopyFile(){
+    YAML::Node cloneNode;
+    if(!cloneNode.IsNull())
+    {
+        std::string bodyNum = cloneNode["bodyNum2"].as<std::string>();
+        std::cout << "bodyNum:" << bodyNum << std::endl;
+    }
+    else
+    {
+        std::cout <<"cloneNode is defined."<< std::endl;
+    }
+    std::string targetPath = "/home/li/workspaces/SmallWashingRobotSDK/config/cloud/config.yaml";
+    if (!swr::util::FilePath::IsFileExisted(targetPath))
+    {
+        std::cout <<"No configure file found." << targetPath << std::endl;
+        return;
+    }
+    YAML::Node config = YAML::LoadFile(targetPath);
+    cloneNode = YAML::Clone(config);
+    if(cloneNode.IsMap())
+    {
+        std::cout <<"cloneNode is defined."<< std::endl;
+        std::string bodyNum = cloneNode["bodyNum2"].as<std::string>();
+        std::cout << "bodyNum:" << bodyNum << std::endl;
+    }
+    
+}
+
 void MoveFile(){
     std::string targetPath = "/home/li/info.yaml";
     std::string nfsPath  = "/home/li/log/test";
@@ -81,7 +109,8 @@ int main(int argc, char *argv[])
 {
     std::cout << "Start yaml demo!" << std::endl;
 
-    UpadteConfig("1");
+    CopyFile();
+    //UpadteConfig("1");
     // yaml::demo::YamlDemo demo;
     // //demo.TestAdd();
     // //demo.TestAdd();

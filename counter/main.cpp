@@ -73,8 +73,10 @@ int main()
     //     usleep(100000);
     // }
 
-    uint64_t now = swr::util::Now();
-    std::cout << "now:" << now << std::endl;
+    // uint64_t now = swr::util::Now();
+    // std::cout << "now:" << now << std::endl;
+
+    std::thread td1();
 
 
     return 0;  

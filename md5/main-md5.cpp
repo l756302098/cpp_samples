@@ -136,42 +136,32 @@ int get_cmd_results(const char *cmdstring, char *buff, int size)
 
 int main(int argc, char *argv[])
 {
-    std::string filePath = "/home/li/log/40016022370086_ncu_202308211505_202308211615_icelog.l";
-    //check log size
-    std::uint32_t maxSize = 0;
-    if(maxSize==0)
+    std::string filePath = "/home/li/app/INDEMINDAPP_ICE_EVT3.2_4.deb";
+    std::string cmd = "md5sum " + filePath;
+    std::cout << "cmd:" << cmd << std::endl;
+    char resultBuf[80];
+    auto result = get_cmd_results(cmd.c_str(),resultBuf,80);
+    if (result != 0)
     {
-        maxSize = 1024;
+        std::cout << "md5sum faile." << std::endl;
     }
-    std::cout << "maxSize: " << maxSize << " logPath:" <<filePath << std::endl;
-    std::string duCmd = "cd "+filePath+" && du -BM -s";
-    char resultBuf[128];
-    int status = get_cmd_results(duCmd.c_str(),resultBuf,128);
-    if(status < 0)
-    {
-        std::cout << "cmd fail : " << duCmd << std::endl;
-        return false;
-    }
-    else
-    {
-        std::cout << "cmd success : " << duCmd << std::endl;
-    }
+    printf("result: %s \n",resultBuf); 
     std::string resultStr(&resultBuf[0],&resultBuf[strlen(resultBuf)]);
-    std::cout << "resultStr:" << resultStr << std::endl;
-    std::vector<std::string> duVector = swr::util::StringHelper::Split2(resultStr,'M');
-    if(duVector.size() < 2)
+    std::vector<std::string> spVector = swr::util::StringHelper::Split(resultStr,' ');
+    for(int i = 0; i <= spVector.size();i++)
     {
-        std::cout << "split du result failed." << duVector.size() << std::endl;
-        return false;
+        std::cout << i << " " << spVector[i] << std::endl;
     }
-    std::string sizeStr = duVector[0];
-    std::uint32_t logSize = std::stoi(sizeStr);
-    std::cout << "sizeStr:" << sizeStr << " logSize:" << logSize << std::endl;
-    if(logSize > maxSize)
+    //sha256
+    memset(resultBuf,0,sizeof(resultBuf));
+    cmd = "sha256sum " + filePath;
+    result = system(cmd.c_str());
+    std::cout << "cmd:" << cmd << std::endl;
+    if (result != 0)
     {
-        std::cout << "log exceed the maximum " << maxSize << std::endl;
-        return false;
+        std::cout << "sha256sum failed." << std::endl;
     }
+    printf("result: %s \n",resultBuf);
     return 0;
 }
 

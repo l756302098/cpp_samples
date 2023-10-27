@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 # Set the project name
-project (file_samples)
+project (http_file_samples)
 # coverage option
 # OPTION (ENABLE_COVERAGE "Use gcov" OFF)
 # MESSAGE(STATUS ENABLE_COVERAGE=${ENABLE_COVERAGE})
@@ -11,7 +11,18 @@ project (file_samples)
 #     # 其中 -fprofile-arcs 用来生成 gcno 文件； -ftest-coverage 用来在统计时生成 gcda 文件
 #     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs -ftest-coverage") 
 # ENDIF()
+find_package(Boost REQUIRED COMPONENTS filesystem system)
 
-add_executable(file_samples main.cpp)
+# check if boost was found
+if(Boost_FOUND)
+    message ("boost found")
+else()
+    message (FATAL_ERROR "Cannot find Boost")
+endif()
 
-target_link_libraries(file_samples pthread)
+include_directories(${Boost_INCLUDE_DIRS})
+add_executable(http_file_samples main.cpp)
+
+target_link_libraries(http_file_samples
+${Boost_LIBRARIES}
+pthread)
