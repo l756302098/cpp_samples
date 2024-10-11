@@ -8,6 +8,7 @@
 #define YAML_DEMO_H_
 
 #include <yaml-cpp/yaml.h>
+#include "DDSConfig.h"
 
 namespace yaml
 {

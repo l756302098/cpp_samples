@@ -108,14 +108,15 @@ bool UpadteConfig(const std::string& lastDate)
 int main(int argc, char *argv[])
 {
     std::cout << "Start yaml demo!" << std::endl;
-
-    CopyFile();
+    //CopyFile();
     //UpadteConfig("1");
-    // yaml::demo::YamlDemo demo;
-    // //demo.TestAdd();
-    // //demo.TestAdd();
-    // demo.TestRead();
-    //demo.SimUpdateYaml();
+    yaml::demo::YamlDemo demo;
+    long id = long(&demo);
+    std::cout << "id:" << id << std::endl;
+    //demo.TestAdd();
+    //demo.TestAdd();
+    demo.TestRead();
+    demo.SimUpdateYaml();
     return 0;
 }
 

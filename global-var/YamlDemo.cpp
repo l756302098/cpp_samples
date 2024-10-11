@@ -8,7 +8,7 @@ namespace yaml
     {
         YamlDemo::YamlDemo(/* args */)
         {
-
+            std::cout << "id:" << this << std::endl;
         }
 
         YamlDemo::~YamlDemo()
@@ -151,6 +151,8 @@ namespace yaml
         }
         void YamlDemo::SimUpdateYaml()
         {
+            std::cout << "ROS_DOMAIN_ID:" << wk::ROS_DOMAIN_ID << std::endl;
+            wk::ROS_DOMAIN_ID  = 3;
             std::string dir = "/home/li/map";
             if (!swr::util::FilePath::IsFileExisted(dir))
             {
@@ -345,6 +347,8 @@ namespace yaml
 
         void YamlDemo::TestRead()
         {
+            std::cout << "ROS_DOMAIN_ID:" << wk::ROS_DOMAIN_ID << std::endl;
+            wk::ROS_DOMAIN_ID  = 2;
             std::string dir = "/home/li";
             if (!swr::util::FilePath::IsFileExisted(dir))
             {

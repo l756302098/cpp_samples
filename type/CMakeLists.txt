@@ -2,6 +2,11 @@ cmake_minimum_required(VERSION 3.5)
 
 # Set the project name
 project (type_samples)
+
+#set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+set(CMAKE_CXX_FLAGS "-fsanitize=address,leak")
+add_definitions("-Wall -g")
+
 # coverage option
 # OPTION (ENABLE_COVERAGE "Use gcov" OFF)
 # MESSAGE(STATUS ENABLE_COVERAGE=${ENABLE_COVERAGE})

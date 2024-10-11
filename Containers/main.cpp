@@ -7,114 +7,33 @@
 
 #include <iostream>
 #include <list>
+#include <unordered_map>
 #include <functional>
-#include <queue> 
-#include <algorithm>
-class PriorityTask
-{
-private:
-    /* data */
-    int priority;
-    std::function<void()> taskFunc;
-public:
-    PriorityTask(int priority_ = 0):priority(priority_)
-    {
-    }
-    ~PriorityTask(){}
-    void SetTaskFunc(const std::function<void()>& func){
-        taskFunc = func;
-    }
 
-    std::function<void()> GetTaskFunc() const{
-        return taskFunc;
-    }
-
-    int GetPriority() const
-    {
-        return priority;
-    }
-
-    bool operator< (const PriorityTask &other) const
-    {
-        return this->priority < other.priority;
-    }
-};
-
-struct IceEvent
-{
-    std::uint32_t   eventTime;
-    std::uint8_t    timeBeat;
-    std::uint16_t   eventCode;
-    std::uint8_t    eventVal;
-    std::string     workRunId;
-    bool operator< (const IceEvent &other) const
-    {
-        return this->eventTime < other.eventTime;
-    }
-};
+std::list<int> dlist;
 
 int main ()
 {
-    // std::priority_queue<PriorityTask> tasks;
-    // PriorityTask p1(10);
-    // tasks.emplace(p1);
-    // PriorityTask p2(20);
-    // tasks.emplace(p2);
-    // PriorityTask p3(30);
-    // tasks.emplace(p3);
-    // PriorityTask p4(5);
-    // tasks.emplace(p4);
-    // while (tasks.size())
-    // {
-    //     std::cout << ' ' << tasks.top().GetPriority();
-    //     tasks.pop();
-    // }
-
-    std::vector<std::string> logFiles;
-    logFiles.emplace_back("202309");
-    logFiles.emplace_back("202308");
-    logFiles.emplace_back("202307");
-    logFiles.emplace_back("202401");
-    logFiles.emplace_back("202301");
-    std::sort(logFiles.begin(),logFiles.end());
-
-    for (auto i = logFiles.begin(); i != logFiles.end(); i++)
+    std::unordered_map<int,std::string> filter_map;
+    for (size_t i = 0; i < 20; i++)
     {
-        std::cout << " " << *i << std::endl;
+        filter_map.emplace(std::make_pair(i,""));
     }
     
-
-    std::priority_queue<IceEvent> tasks;
-    IceEvent event1;
-    event1.eventTime = 10;
-    tasks.emplace(event1);
-    IceEvent event2;
-    event2.eventTime = 20;
-    tasks.emplace(event2);
-    // while (tasks.size())
-    // {
-    //     std::cout << ' ' << tasks.top().eventTime << std::endl;
-    //     tasks.pop();
-    // }
-
-    std::list<IceEvent> eventList;
-    while (tasks.size())
+    for (size_t i = 0; i < 100; i++)
     {
-        std::cout << ' ' << tasks.top().eventTime << std::endl;
-        auto e = tasks.top();
-        eventList.emplace_back(e);
-        tasks.pop();
+        dlist.emplace_back(i);
     }
-    IceEvent event3;
-    event3.eventTime = 200;
-    eventList.emplace_back(event3);
-    while (eventList.size())
-    {
-        IceEvent item = eventList.front();
-        std::cout << "time:" << item.eventTime << std::endl;
-        eventList.pop_front();
-    }
-    
+
+    dlist.remove_if([&filter_map](const int &value)->bool{
+        if(filter_map.find(value)==filter_map.end())
+        {
+            std::cout << "remove value:" << value << std::endl;
+            return true;
+        }
+        return false;
+    });
+    std::cout << "count:" << dlist.size() << std::endl;
     return 0;
 }
 

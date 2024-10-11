@@ -21,7 +21,7 @@ else()
     message ("Cannot find yaml-cpp")
 endif()
 
-add_executable(yaml_samples main.cpp YamlDemo.cpp)
+add_executable(yaml_samples main.cpp YamlDemo.cpp DDSConfig.cpp)
 
 target_link_libraries(yaml_samples
 yaml-cpp)
