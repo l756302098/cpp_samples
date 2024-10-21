@@ -3,6 +3,7 @@
 #include <string_view>
 #include <iostream>
 #include <string>
+#include "unistd.h"
 
 using namespace std;
 
@@ -78,4 +79,10 @@ int main()
    int comp6a = sv_I.compare(1, 3, cs_C, 3);
    cout << "The 3 characters from position 1 of sv_I are"
       << to_alpha(comp6a) << "the first 3 characters of cs_C.\n";
+
+    while (1)
+    {
+        sleep(1);
+    }
+    
 }

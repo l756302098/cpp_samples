@@ -17,7 +17,7 @@ include_directories(
     ${Boost_INCLUDE_DIRS} 
     ${OpenCV_INCLUDE_DIRS}
     )
-add_executable(samples string_view.cpp)
+add_executable(samples fixed.cpp)
 
 target_link_libraries(samples
 ${Boost_LIBRARIES}
