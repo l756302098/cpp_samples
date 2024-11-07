@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 # Set the project name
-project (md5_samples)
+project (demo)
 # coverage option
 # OPTION (ENABLE_COVERAGE "Use gcov" OFF)
 # MESSAGE(STATUS ENABLE_COVERAGE=${ENABLE_COVERAGE})
@@ -21,6 +21,6 @@ else()
 endif()
 
 include_directories(${Boost_INCLUDE_DIRS})
-add_executable(md5_samples main.cpp)
+add_executable(demo main.cpp)
 
-target_link_libraries(md5_samples ${Boost_LIBRARIES} pthread)
+target_link_libraries(demo ${Boost_LIBRARIES} pthread)
